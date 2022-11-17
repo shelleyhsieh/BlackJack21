@@ -172,7 +172,7 @@ class ViewController: UIViewController {
             ownMoney = ownMoney + betMoney - betMoney
 // 確認賭金是否<0，有籌碼可繼續玩，沒有籌碼則遊戲結束
             if checkOwnMoney() == false {
-                gameAlert(title: "OOPS!", message: "爆掉了，\(pSum)小於\(cptSum)")
+                gameAlert(title: "OOPS!", message: "爆掉了，\(pSum)超過21點")
                 remainMoneyLable.text = "\(ownMoney)"
                 betMoney -= betMoney
                 totatBetMoneyLable.text = "\(betMoney)"
@@ -190,7 +190,7 @@ class ViewController: UIViewController {
             if cptSum <= 17{
 // 當電腦牌面點數<=21繼續抽牌，且莊家<玩家時，繼續補牌最多5張
                 for i in 2...4{
-                    if cptSum <= 21, cptSum < pSum {
+                    if cptSum <= 21{
                         takeACard = Int.random(in: 0...51)
                         computerCardView[i].isHidden = false
                         computerCards.append(cards[takeACard])
@@ -202,7 +202,7 @@ class ViewController: UIViewController {
                             ownMoney = ownMoney + betMoney - betMoney
                             betMoney -= betMoney
                             if checkOwnMoney() == false{
-                                gameAlert(title: "BlackJack!", message: "電腦獲勝！")
+                                gameAlert(title: "21點！", message: "電腦獲勝！")
                                 remainMoneyLable.text = "\(ownMoney)"
                                 totatBetMoneyLable.text = "\(betMoney)"
                             }else{
@@ -251,7 +251,7 @@ class ViewController: UIViewController {
                     }
                 }else{
                     gameAlert(title: "平手", message: "下一局")
-                    ownMoney = ownMoney + betMoney
+                    ownMoney = ownMoney + betMoney + betMoney
                     betMoney -= betMoney
                 }
             }
@@ -263,6 +263,7 @@ class ViewController: UIViewController {
 // 棄牌時，賭金只能回收一半，重新發牌
     @IBAction func surrender(_ sender: UIButton) {
         ownMoney += betMoney / 2
+        betMoney -= betMoney
         remainMoneyLable.text = "\(ownMoney)"
         wordLable.text = "棄牌"
         totatBetMoneyLable.text = "\(0)"
